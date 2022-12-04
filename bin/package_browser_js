@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+echo "🔁  mkdir -p ./build";
+mkdir -p ./build;
+
+echo "🔁  node --max_old_space_size=8192 node_modules/.bin/webpack --config webpack.browser.prod.config.js --display-modules ";
+node --max_old_space_size=8192 node_modules/.bin/webpack --config webpack.browser.prod.config.js --display-modules;
+
+echo "🔁   rm -rf ./build/worktips_core_js/";
+rm -rf ./build/worktips_core_js/;
+
+echo "🔁   mkdir -p ./build/worktips_core_js/worktips_utils/";
+mkdir -p ./build/worktips_core_js/worktips_utils/;
+
+echo "🔁   cp worktips_utils/WorktipsCoreCpp_WASM.wasm ./build/worktips_core_js/worktips_utils/";
+cp worktips_utils/WorktipsCoreCpp_WASM.wasm ./build/worktips_core_js/worktips_utils/;
+
+echo "🔁   cp worktips_utils/WorktipsCoreCpp_ASMJS.asm.js ./build/worktips_core_js/worktips_utils/";
+cp worktips_utils/WorktipsCoreCpp_ASMJS.asm.js ./build/worktips_core_js/worktips_utils/;
