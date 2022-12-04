@@ -4,8 +4,6 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 project(WorktipsCoreCpp)
 #
-include_directories("build/boost/include") # must exist already - run bin/build-boost-emscripten.sh
-#
 include_directories("src")
 #
 set(WORKTIPS_CORE_CPP "src/submodules/worktips-core-cpp")
@@ -106,29 +104,11 @@ set(
     ${WORKTIPS_SRC}/contrib/libsodium/src/crypto_verify/verify.c
 )
 
-set(boost_DIR ${CMAKE_SOURCE_DIR}/build/boost)
 
-add_library(boost_chrono STATIC IMPORTED)
-set_target_properties(
-    boost_chrono PROPERTIES IMPORTED_LOCATION
-    ${boost_DIR}/lib/libboost_chrono.a
-)
-add_library(boost_system STATIC IMPORTED)
-set_target_properties(
-    boost_system PROPERTIES IMPORTED_LOCATION
-    ${boost_DIR}/lib/libboost_system.a
-)
-#
-add_library(boost_thread STATIC IMPORTED)
-set_target_properties(
-    boost_thread PROPERTIES IMPORTED_LOCATION
-    ${boost_DIR}/lib/libboost_thread.a
-)
 #
 #
 set (
     EMCC_LINKER_FLAGS___BASE
-    #unsure if the -I...boost..include is necessary here due to include above
     #
     # TODO? does EXPORT_NAME need to be the same for both targets? (or should it be set per-target with …_WASM, …_ASMJS?)
     "-Wall -std=c++14 \
@@ -195,32 +175,14 @@ set_target_properties(WorktipsCoreCpp_ASMJS PROPERTIES LINK_FLAGS "${EMCC_LINKER
 # set_target_properties(WorktipsCoreCpp_WASM PROPERTIES SUFFIX ".html")
 # set_target_properties(WorktipsCoreCpp_ASMJS PROPERTIES SUFFIX ".html")
 #
-# boost_atomic
-# boost_date_time
-# boost_filesystem
-# boost_locale
-# boost_program_options
-# boost_regex
-# boost_serialization
-# boost_signals
-# boost_timer
-# boost_wserialization
-#
 target_link_libraries(
     WorktipsCoreCpp_WASM
-    #
-    boost_chrono
-    boost_system
-    boost_thread
     #
     ${log-lib}
 )
 target_link_libraries(
     WorktipsCoreCpp_ASMJS
     #
-    boost_chrono
-    boost_system
-    boost_thread
     #
     ${log-lib}
 )
